@@ -13,6 +13,15 @@ void calculateNeed(vector<vector<int>> &need, vector<vector<int>> &max, vector<v
             need[i][j] = max[i][j] - allocation[i][j];
         }
     }
+    cout<< "need matrix"  << endl;
+     for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            cout << need[i][j] << " ";
+        }
+        cout << endl;
+    }
 }
 
 // Function to check if the system is in a safe state
@@ -107,7 +116,6 @@ vector<int> safeSequence(vector<int> &available, vector<vector<int>> &need, vect
     return safeSeq;
 }
 
-
 void executeSaftyCheck(vector<int> available, vector<vector<int>> need, vector<vector<int>> allocation, int processNumber, int resourceNumber)
 {
     if (isSafe(available, need, allocation, processNumber, resourceNumber))
@@ -175,12 +183,49 @@ void unsafeExample()
     executeSaftyCheck(available, need, allocation, processNumber, resourceNumber);
 }
 
+void userData() {
+    int processNumber, resourceNumber;
+    cout << "Enter the number of processes: ";
+    cin >> processNumber;
+    cout << "Enter the number of resources: ";
+    cin >> resourceNumber;
+
+    vector<vector<int>> max(processNumber, vector<int>(resourceNumber));
+    vector<vector<int>> allocation(processNumber, vector<int>(resourceNumber));
+    vector<int> available(resourceNumber);
+
+    cout << "Enter the maximum resources for each process: " << endl;
+    for (int i = 0; i < processNumber; i++) {
+        for (int j = 0; j < resourceNumber; j++) {
+            cin >> max[i][j];
+        }
+    }
+
+    cout << "Enter the allocated resources for each process: " << endl;
+    for (int i = 0; i < processNumber; i++) {
+        for (int j = 0; j < resourceNumber; j++) {
+            cin >> allocation[i][j];
+        }
+    }
+
+    cout << "Enter the available resources: " << endl;
+    for (int i = 0; i < resourceNumber; i++) {
+        cin >> available[i];
+    }
+
+    vector<vector<int>> need(processNumber, vector<int>(resourceNumber));
+    calculateNeed(need, max, allocation, processNumber, resourceNumber);
+    executeSaftyCheck(available, need, allocation, processNumber, resourceNumber);
+}
+
 int main()
 {
     cout<< "Safe Example" << endl;
     safeExample();
     cout<< "Unsafe Example" << endl;
     unsafeExample();
+    cout<< "User Example" << endl;
+    userData();
 
     return 0;
 }
